@@ -3,7 +3,6 @@ IMAGE_NAME = hidori/cspell
 .PHONY: build
 build:
 	docker build -f ./Dockerfile -t ${IMAGE_NAME} .
-		.
 
 .PHONY: rebuild
 rebuild:
