@@ -10,7 +10,7 @@ rebuild:
 
 .PHONY: run
 run:
-	docker run --rm -v $${PWD}:$${PWD} -w $${PWD} ${IMAGE_NAME} .
+	docker run --rm ${IMAGE_NAME} -V
 
 .PHONY: tag
 tag:
