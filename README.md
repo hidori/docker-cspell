@@ -7,7 +7,7 @@ This container image contains following components:
 ## USAGE
 
 ```bash
-docker pull hidori/cspell
+docker pull hidori/cspell:latest
 ```
 
 ## EXAMPLE
