@@ -8,6 +8,10 @@ build:
 rebuild:
 	docker build --no-cache -t ${IMAGE_NAME} .
 
+.PHONY: rmi
+rmi:
+	docker rmi -f ${IMAGE_NAME}
+
 .PHONY: run
 run:
 	docker run --rm ${IMAGE_NAME} -V
