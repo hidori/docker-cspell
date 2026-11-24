@@ -1,11 +1,12 @@
-FROM node:23-alpine3.19
+FROM alpine:3.24
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache jq sed
+RUN apk add --no-cache libstdc++ libatomic \
+    && NODE_VERSION=$(wget -qO- https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" { print $1; exit }') \
+    && wget -qO- "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64-musl.tar.xz" | tar -xJ -C /usr/local --strip-components=1 --no-same-owner
 
-COPY ./package.json ./
-RUN npm i -g cspell@$(jq -r '.dependencies.cspell' ./package.json | sed 's/[^0-9.]//')
-RUN rm ./package.json
+WORKDIR /app
 
-ENTRYPOINT [ "cspell" ]
+RUN npm i cspell@latest
+RUN npm audit fix
+
+ENTRYPOINT [ "/app/node_modules/.bin/cspell" ]

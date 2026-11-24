@@ -1,25 +1,18 @@
 IMAGE_NAME = hidori/cspell
 
-.PHONY: build
+.PHONY: clean build rebuild run rmi
+
+clean:
+	rm -fr ./tmp
+
 build:
 	docker build -t ${IMAGE_NAME} .
 
-.PHONY: rebuild
 rebuild:
 	docker build --no-cache -t ${IMAGE_NAME} .
 
-.PHONY: rmi
+run:
+	docker run --rm ${IMAGE_NAME} --version
+
 rmi:
 	docker rmi -f ${IMAGE_NAME}
-
-.PHONY: run
-run:
-	docker run --rm ${IMAGE_NAME} -V
-
-.PHONY: version
-version:
-	git checkout main
-	git fetch
-	git pull
-	git tag `jq -r '.dependencies.cspell' ./package.json | sed 's/[^0-9.]//'`
-	git push --tags
